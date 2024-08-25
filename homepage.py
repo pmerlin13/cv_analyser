@@ -38,14 +38,22 @@ def pagina_inicio_sesion():
     with st.container():
         st.title('Inicio de Sesión')
         st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
+        
+        # Obtener los datos del usuario
         correo = st.text_input('Correo o usuario')
         contrasena = st.text_input('Contraseña', type='password')
+
+        # Validar campos
         if st.button('Iniciar sesión'):
-            user_name = verificar_credenciales(correo, contrasena)
-            if user_name:
-                st.success(f'Inicio de sesión exitoso. Bienvenido, {user_name}!')
+            if not correo or not contrasena:
+                st.error("Todos los campos son obligatorios.")
             else:
-                st.error('Usuario o contraseña inválidos.')
+                user_name = verificar_credenciales(correo, contrasena)
+                if user_name:
+                    st.success(f'Inicio de sesión exitoso. Bienvenido, {user_name}!')
+                else:
+                    st.error('Usuario o contraseña inválidos.')
+
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
@@ -55,18 +63,25 @@ def pagina_registro():
     with st.container():
         st.title('Registro')
         st.write('Por favor, completa los siguientes campos para crear una cuenta.')
+
+        # Obtener los datos del usuario
         nombre = st.text_input('Nombre')
         correo = st.text_input('Correo electrónico')
         contrasena = st.text_input('Contraseña', type='password')
+
+        # Validar campos
         if st.button('Crear cuenta'):
-            conn = conectar_bd()
-            cursor = conn.cursor()
-            hashed_password = generate_password_hash(contrasena)
-            cursor.execute("INSERT INTO users (nombre, correo, password) VALUES (%s, %s, %s)",
-                           (nombre, correo, hashed_password))
-            conn.commit()
-            conn.close()
-            st.success('Cuenta creada exitosamente.')
+            if not nombre or not correo or not contrasena:
+                st.error("Todos los campos son obligatorios.")
+            else:
+                conn = conectar_bd()
+                cursor = conn.cursor()
+                hashed_password = generate_password_hash(contrasena)
+                cursor.execute("INSERT INTO users (nombre, correo, password) VALUES (%s, %s, %s)",
+                               (nombre, correo, hashed_password))
+                conn.commit()
+                conn.close()
+                st.success('Cuenta creada exitosamente.')
 
 # Página principal
 def pagina_principal():
@@ -80,4 +95,3 @@ def pagina_principal():
 # Ejecutar la aplicación
 if __name__ == '__main__':
     pagina_principal()
-
