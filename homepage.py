@@ -1,6 +1,25 @@
 import streamlit as st
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
+from cryptography.fernet import Fernet
+
+# Proceso de encriptación
+def get_fernet_key():
+    # Cargar la clave desde un archivo o una configuración segura
+    # En este ejemplo, la clave está codificada directamente
+    # En un entorno de producción, considera almacenar la clave en una ubicación segura
+    key = st.secrets["database"]["encryption_key"]
+    return Fernet(key.encode('utf-8'))
+
+def encrypt_pass(password):
+    fernet = get_fernet_key()
+    encrypted_password = fernet.encrypt(password.encode())
+    return encrypted_password
+
+def decrypt_pass(encrypted_password):
+    fernet = get_fernet_key()
+    decrypted_password = fernet.decrypt(encrypted_password).decode()
+    return decrypted_password
 
 # Cargar secretos desde Streamlit Secrets
 db_user = st.secrets["database"]["user"]
