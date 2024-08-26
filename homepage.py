@@ -43,7 +43,7 @@ def conectar_bd():
 def verificar_credenciales(correo, contrasena):
     conn = conectar_bd()
     cursor = conn.cursor()
-    cursor.execute("SELECT name, email, password FROM users WHERE email = %s", (correo,))
+    cursor.execute("SELECT name, email, password FROM user WHERE email = %s", (correo,))
     user = cursor.fetchone()
     conn.close()
 
@@ -96,7 +96,7 @@ def pagina_registro():
                 conn = conectar_bd()
                 cursor = conn.cursor()
                 hashed_password = generate_password_hash(contrasena)
-                cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+                cursor.execute("INSERT INTO user (name, email, password) VALUES (%s, %s, %s)",
                                (nombre, correo, hashed_password))
                 conn.commit()
                 conn.close()
