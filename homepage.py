@@ -40,7 +40,7 @@ def conectar_bd():
         )
         return conn
     except psycopg2.OperationalError as e:
-        st.error(f"Error de conexión: {e}")
+        st.error(f"Error de conexión")
         raise
 
 # Función para verificar las credenciales del usuario
