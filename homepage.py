@@ -30,14 +30,18 @@ db_name = st.secrets["database"]["name"]
 
 # Función para conectar a la base de datos
 def conectar_bd():
-    conn = psycopg2.connect(
-        user=db_user,
-        password=db_password,
-        host=db_host,
-        port=db_port,
-        database=db_name
-    )
-    return conn
+    try:
+        conn = psycopg2.connect(
+            user=db_user,
+            password=db_password,
+            host=db_host,
+            port=db_port,
+            database=db_name
+        )
+        return conn
+    except psycopg2.OperationalError as e:
+        st.error(f"Error de conexión: {e}")
+        raise
 
 # Función para verificar las credenciales del usuario
 def verificar_credenciales(correo, contrasena):
