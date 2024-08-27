@@ -151,7 +151,7 @@ def pagina_seleccion():
         st.write(message)  
     elif opcion == 'Registro':
         #pagina_registro()
-        st.Page("pages/dashboard")
+        st.Page("pages/dashboard.py")
 # Ejecutar la aplicación
 if __name__ == '__main__':
     pagina_seleccion()
