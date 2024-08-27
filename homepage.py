@@ -81,8 +81,10 @@ def obtener_usuarios_y_contrasenas():
 names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
 
 authenticator = stauth.Authenticate(
-    names, usernames, hashed_passwords,
-    "sales_dashboard", "abcdef", cookie_expiry_days=30
+    credentials={"usernames": {username: {"name": name, "password": password} for name, username, password in zip(names, usernames, hashed_passwords)}},
+    cookie_name="cv_dashboard",
+    key="abcdef",
+    cookie_expiry_days=30
 )
 
 # Página principal
