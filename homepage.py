@@ -32,7 +32,7 @@ db_name = st.secrets["database"]["name"]
 def conectar_bd():
     try:
         conn = psycopg2.connect(
-            user="",
+            user=db_user,
             password=db_password,
             host=db_host,
             port=db_port,
