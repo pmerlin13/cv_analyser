@@ -59,11 +59,12 @@ def obtener_usuarios_y_contrasenas():
     users = cursor.fetchall()
     conn.close()
 
-    names = [user[0] for user in users]
-    usernames = [user[1] for user in users]  # Aquí usamos el correo como username
-    hashed_passwords = [user[2] for user in users]
+    credentials = {"usernames": {}}
+    for user in users:
+        name, username, hashed_password = user
+        credentials["usernames"][username] = {"name": name, "password": hashed_password}
 
-    return names, usernames, hashed_passwords
+    return credentials
 
 # Página principal
 def pagina_principal():
@@ -85,16 +86,15 @@ def pagina_inicio_sesion():
             if not correo or not contrasena:
                 st.error("Todos los campos son obligatorios.")
             else:
-                # Obtener los usuarios y contraseñas desde la base de datos
-                names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
+                # Obtener las credenciales desde la base de datos
+                credentials = obtener_usuarios_y_contrasenas()
 
                 # Inicializar el autenticador de Streamlit
                 authenticator = stauth.Authenticate(
-                    names,
-                    usernames,
-                    hashed_passwords,
+                    credentials,
                     "sales_dashboard",
-                    "abcdef"
+                    "abcdef",
+                    cookie_expiry_days=30
                 )
 
                 # Usar streamlit_authenticator para autenticar
