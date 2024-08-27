@@ -98,11 +98,11 @@ def pagina_inicio_sesion():
                 )
 
                 # Usar streamlit_authenticator para autenticar
-                name, authentication_status, username = authenticator.login(location='main')  # Usar "main" o "sidebar"
+                name, authentication_status, username = authenticator.login(location='main')  # no lleva el form name
 
                 if authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                    pagina_principal()
+                    #pagina_principal()
                 elif authentication_status == False:
                     st.error('Usuario o contraseña inválidos.')
                 elif authentication_status == None:
