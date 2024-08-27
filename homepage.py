@@ -87,49 +87,21 @@ def pagina_inicio_sesion():
         name, authentication_status, username = authenticator.login(key='Login',location='main') 
         if authentication_status:
             authenticator.logout(button_name='Logout', location='main',key='Logout')        
-        # Obtener los datos del usuario
- #       correo = st.text_input('Correo o usuario')
-   #     contrasena = st.text_input('Contraseña', type='password')
-        message = ""
-        # Validar campos y autenticar usuario
-        if st.button('Iniciar sesión'):
-            correo = st.text_input('Correo o usuario')
-            contrasena = st.text_input('Contraseña', type='password')            
-            if not correo or not contrasena:
-                st.error("Todos los campos son obligatorios.")
-            else:
-                # Obtener las credenciales desde la base de datos
-                credentials = obtener_usuarios_y_contrasenas()
-                # Inicializar el autenticador de Streamlit
-                authenticator = stauth.Authenticate(
-                    credentials,
-                    "sales_dashboard",
-                    "abcdef",
-                    cookie_expiry_days=30
-                )
-
-                # Usar streamlit_authenticator para autenticar
-                name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
-
-                if authentication_status:
-                    authenticator.logout(button_name='Logout', location='main',key='Logout')
-                    pagina_principal()
-                    st.write(f'Welcome *{name}*')
-                    st.title('Some content')
-                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                    message = f'Inicio de sesión exitoso. Bienvenido, {name}!'                
-                elif authentication_status == False:
-                    st.error('Usuario o contraseña inválidos.')
-                    message = 'Usuario o contraseña inválidos.'
-                elif authentication_status == None:
-                    st.warning('Por favor, ingrese su usuario y contraseña.')
-                    message = 'Por favor, ingrese su usuario y contraseña.'
 
 
-        st.write(message)            
-        st.write('¿Olvidaste tu contraseña?')
-        if st.button('Restablecer contraseña'):
-            st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
+        if authentication_status:
+            authenticator.logout(button_name='Logout', location='main',key='Logout')
+            pagina_principal()
+            st.write(f'Welcome *{name}*')
+               
+        elif authentication_status == False:
+            st.error('Usuario o contraseña inválidos.')
+
+        elif authentication_status == None:
+            st.warning('Por favor, ingrese su usuario y contraseña.')
+
+
+
         
 # Página de registro
 def pagina_registro():
