@@ -88,7 +88,7 @@ def pagina_inicio_sesion():
             else:
                 # Obtener las credenciales desde la base de datos
                 credentials = obtener_usuarios_y_contrasenas()
-
+                st.text(credentials)
                 # Inicializar el autenticador de Streamlit
                 authenticator = stauth.Authenticate(
                     credentials,
@@ -107,8 +107,7 @@ def pagina_inicio_sesion():
                     st.warning('Por favor, ingrese su usuario y contraseña.')
                 elif authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                    while(1):
-                        pass
+
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
