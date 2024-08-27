@@ -102,10 +102,6 @@ def pagina_inicio_sesion():
 
                 if authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                    st.error('Usuario o contraseña inválidos.')
-                    if st.button('Ir a la página principal'):
-                        pagina_principal()
-                    #pagina_principal()
                 elif authentication_status == False:
                     st.error('Usuario o contraseña inválidos.')
                 elif authentication_status == None:
@@ -153,4 +149,4 @@ def pagina_seleccion():
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    pagina_seleccion()
+    pagina_inicio_sesion()
