@@ -123,7 +123,7 @@ def pagina_registro():
     contrasena = st.text_input('Contraseña', type='password')
 
     if st.button('Crear cuenta'):
-        if not nombre o not apellido o not correo o not contrasena:
+        if not nombre or not apellido or not correo or not contrasena:
             st.error("Todos los campos son obligatorios.")
         else:
             # Verificar si el correo ya está registrado
