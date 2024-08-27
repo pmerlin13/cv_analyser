@@ -101,8 +101,7 @@ def pagina_registro():
                 conn = conectar_bd()
                 cursor = conn.cursor()
                 hashed_password = generate_password_hash(contrasena)
-                cursor.execute("INSERT INTO user.user_info (name, email, password) VALUES (%s, %s, %s)",
-                               (nombre, correo, hashed_password))
+                cursor.execute("INSERT INTO user.user_info (name, email, password) VALUES (%s, %s, %s)",(nombre, correo, hashed_password))
                 conn.commit()
                 conn.close()
                 st.success('Cuenta creada exitosamente.')
