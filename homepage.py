@@ -107,7 +107,7 @@ def pagina_inicio_sesion():
                     st.warning('Por favor, ingrese su usuario y contraseña.')
                     message = 'Por favor, ingrese su usuario y contraseña.'
                 elif authentication_status:
-                    authenticator.logout('Logout', 'main')
+                    authenticator.logout(button_name='Logout', location='main',key='Logout')
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
                     message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
 
