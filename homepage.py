@@ -101,6 +101,7 @@ def pagina_inicio_sesion():
 
                 if authentication_status:
                     authenticator.logout(button_name='Logout', location='main',key='Logout')
+                    pagina_principal()
                     st.write(f'Welcome *{name}*')
                     st.title('Some content')
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
