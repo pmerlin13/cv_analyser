@@ -100,8 +100,7 @@ def pagina_inicio_sesion():
                     usernames,
                     hashed_passwords,
                     "sales_dashboard",
-                    "abcdef",
-                    cookie_expiry_days=30
+                    "abcdef"
                 )
 
                 # Usar streamlit_authenticator para autenticar
