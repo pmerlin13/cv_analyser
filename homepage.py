@@ -51,20 +51,7 @@ def correo_registrado(correo):
     conn.close()
     return user is not None
 
-# Función para verificar las credenciales del usuario
-def verificar_credenciales(correo, contrasena):
-    conn = conectar_bd()
-    cursor = conn.cursor()
-    cursor.execute('SELECT name, email, password FROM "user".user_info WHERE email = %s', (correo,))
-    user = cursor.fetchone()
-    conn.close()
-
-    if user and check_password_hash(user[2], contrasena):
-        return user[0]
-    else:
-        return None
-
-# Integración de Streamlit Authenticator
+# Función para obtener usuarios y contraseñas desde la base de datos
 def obtener_usuarios_y_contrasenas():
     conn = conectar_bd()
     cursor = conn.cursor()
@@ -77,20 +64,6 @@ def obtener_usuarios_y_contrasenas():
     hashed_passwords = [user[2] for user in users]
 
     return names, usernames, hashed_passwords
-
-names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
-
-# Inicializar el autenticador de Streamlit con la estructura correcta
-credentials = {"usernames": {}}
-for name, username, password in zip(names, usernames, hashed_passwords):
-    credentials["usernames"][username] = {"name": name, "password": password}
-
-authenticator = stauth.Authenticate(
-    credentials,
-    "sales_dashboard",
-    "abcdef",
-    cookie_expiry_days=30
-)
 
 # Página principal
 def pagina_principal():
@@ -112,8 +85,19 @@ def pagina_inicio_sesion():
             if not correo or not contrasena:
                 st.error("Todos los campos son obligatorios.")
             else:
+                # Obtener los usuarios y contraseñas desde la base de datos
+                names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
+
+                # Inicializar el autenticador de Streamlit
+                authenticator = stauth.Authenticate(
+                    names,
+                    usernames,
+                    hashed_passwords,
+                    "sales_dashboard",
+                    "abcdef"
+                )
+
                 # Usar streamlit_authenticator para autenticar
-                authenticator.credentials["usernames"] = {correo: {"name": correo, "password": contrasena}}
                 name, authentication_status, username = authenticator.login("Login", "main")
 
                 if authentication_status:
