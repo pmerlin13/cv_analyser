@@ -98,7 +98,7 @@ def pagina_inicio_sesion():
                 )
 
                 # Usar streamlit_authenticator para autenticar
-                name, authentication_status, username = authenticator.login(location='main')  # no lleva el form name
+                name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
                 if authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
@@ -149,4 +149,4 @@ def pagina_seleccion():
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    pagina_inicio_sesion()
+    pagina_seleccion()
