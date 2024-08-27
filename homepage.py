@@ -100,13 +100,16 @@ def pagina_inicio_sesion():
                 name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
 
-        if authentication_status == False:
-            st.error('Usuario o contraseña inválidos.')
-        elif authentication_status == None:
-            st.warning('Por favor, ingrese su usuario y contraseña.')
-        elif authentication_status:
-            st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-
+                if authentication_status == False:
+                    st.error('Usuario o contraseña inválidos.')
+                    message = 'Usuario o contraseña inválidos.'
+                elif authentication_status == None:
+                    st.warning('Por favor, ingrese su usuario y contraseña.')
+                    message = 'Por favor, ingrese su usuario y contraseña.'
+                elif authentication_status:
+                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+                    message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
+        st.write(message)            
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
