@@ -98,7 +98,7 @@ def pagina_inicio_sesion():
                 )
 
                 # Usar streamlit_authenticator para autenticar
-                name, authentication_status, username = authenticator.login("Login", "main")
+                name, authentication_status = authenticator.login("Login", "main")
 
                 if authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
