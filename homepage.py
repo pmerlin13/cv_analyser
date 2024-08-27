@@ -73,7 +73,7 @@ def obtener_usuarios_y_contrasenas():
     conn.close()
 
     names = [user[0] for user in users]
-    usernames = [user[1] for user in users]
+    usernames = [user[1] for user in users]  # Aquí usamos el correo como username
     hashed_passwords = [user[2] for user in users]
 
     return names, usernames, hashed_passwords
@@ -81,15 +81,12 @@ def obtener_usuarios_y_contrasenas():
 names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
 
 # Inicializar el autenticador de Streamlit
-credentials = {"usernames": {}}
-for name, username, password in zip(names, usernames, hashed_passwords):
-    credentials["usernames"][username] = {"name": name, "password": password}
-
 authenticator = stauth.Authenticate(
-    credentials=credentials,
-    cookie_name="cv_dashboard",
-    signature_key="abcdef",
-    cookie_expiry_days=30
+    names,
+    usernames,
+    hashed_passwords,
+    "sales_dashboard",
+    "abcdef"
 )
 
 # Página principal
@@ -129,7 +126,7 @@ def pagina_registro():
         contrasena = st.text_input('Contraseña', type='password')
 
         if st.button('Crear cuenta'):
-            if not nombre or not correo or not contrasena:
+            if not nombre or not apellido or not correo or not contrasena:
                 st.error("Todos los campos son obligatorios.")
             else:
                 # Verificar si el correo ya está registrado
