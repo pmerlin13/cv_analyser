@@ -99,7 +99,7 @@ def pagina_inicio_sesion():
                 # Usar streamlit_authenticator para autenticar
                 name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
-
+                
                 if authentication_status == False:
                     st.error('Usuario o contraseña inválidos.')
                     message = 'Usuario o contraseña inválidos.'
@@ -150,8 +150,8 @@ def pagina_seleccion():
         message = pagina_inicio_sesion()
         st.write(message)  
     elif opcion == 'Registro':
-        pagina_registro()
-
+        #pagina_registro()
+        st.Page("pages/dashboard")
 # Ejecutar la aplicación
 if __name__ == '__main__':
     pagina_seleccion()
