@@ -90,6 +90,7 @@ def pagina_registro():
 
         # Obtener los datos del usuario
         nombre = st.text_input('Nombre')
+        apellido = st.text_input('Apellido')
         correo = st.text_input('Correo electrónico')
         contrasena = st.text_input('Contraseña', type='password')
 
@@ -101,7 +102,7 @@ def pagina_registro():
                 conn = conectar_bd()
                 cursor = conn.cursor()
                 hashed_password = generate_password_hash(contrasena)
-                cursor.execute("INSERT INTO user.user_info (name, email, password) VALUES (%s, %s, %s)",(nombre, correo, hashed_password))
+                cursor.execute("INSERT INTO user.user_info (name, lastname, email, password) VALUES (%s, %s, %s,%s)",(nombre,apellido, correo, hashed_password))
                 conn.commit()
                 conn.close()
                 st.success('Cuenta creada exitosamente.')
