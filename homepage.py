@@ -102,6 +102,7 @@ def pagina_inicio_sesion():
 
                 if authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+                    st.error('Usuario o contraseña inválidos.')
                     if st.button('Ir a la página principal'):
                         pagina_principal()
                     #pagina_principal()
