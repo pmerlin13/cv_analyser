@@ -80,10 +80,15 @@ def obtener_usuarios_y_contrasenas():
 
 names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
 
+# Inicializar el autenticador de Streamlit
+credentials = {"usernames": {}}
+for name, username, password in zip(names, usernames, hashed_passwords):
+    credentials["usernames"][username] = {"name": name, "password": password}
+
 authenticator = stauth.Authenticate(
-    credentials={"usernames": {username: {"name": name, "password": password} for name, username, password in zip(names, usernames, hashed_passwords)}},
+    credentials=credentials,
     cookie_name="cv_dashboard",
-    key="abcdef",
+    signature_key="abcdef",
     cookie_expiry_days=30
 )
 
