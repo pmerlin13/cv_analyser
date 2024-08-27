@@ -58,13 +58,18 @@ def obtener_usuarios_y_contrasenas():
     cursor.execute('SELECT name, email, password FROM "user".user_info')
     users = cursor.fetchall()
     conn.close()
-
+    names = []
+    usernames = []
+    hashed_passwords = []
     credentials = {"usernames": {}}
     for user in users:
         name, username, hashed_password = user
-        credentials["usernames"][username] = {"name": name, "password": hashed_password}
+        names.append(name)
+        usernames.append(username)
+        hashed_passwords.append(hashed_password)
+        #credentials["usernames"][username] = {"name": name, "password": hashed_password}
 
-    return credentials
+    return names,usernames,hashed_passwords
 
 # Página principal
 def pagina_principal():
@@ -87,11 +92,13 @@ def pagina_inicio_sesion():
                 st.error("Todos los campos son obligatorios.")
             else:
                 # Obtener las credenciales desde la base de datos
-                credentials = obtener_usuarios_y_contrasenas()
+                names, usernames, hashed_passwords = obtener_usuarios_y_contrasenas()
 
                 # Inicializar el autenticador de Streamlit
                 authenticator = stauth.Authenticate(
-                    credentials,
+                    names,
+                    usernames,
+                    hashed_passwords,
                     "sales_dashboard",
                     "abcdef",
                     cookie_expiry_days=30
