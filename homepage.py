@@ -95,7 +95,7 @@ authenticator = stauth.Authenticate(
 # Página principal
 def pagina_principal():
     # Asegúrate de que el segundo argumento sea uno de "main", "sidebar", o "unrendered"
-    name, authentication_status, username = authenticator.login("Login", "unrendered")  # Cambia a "sidebar" si prefieres la barra lateral
+    name, authentication_status, username = authenticator.login("Login", "sidebar")  # Cambia a "sidebar" si prefieres la barra lateral
 
     if authentication_status == False:
         st.error("Username/password is incorrect")
