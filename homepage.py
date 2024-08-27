@@ -76,13 +76,15 @@ def pagina_inicio_sesion():
     with st.container():
         st.title('Inicio de Sesión')
         st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
-
+        name, authentication_status, username = authenticator.login(key='Login',location='main') 
         # Obtener los datos del usuario
-        correo = st.text_input('Correo o usuario')
-        contrasena = st.text_input('Contraseña', type='password')
+ #       correo = st.text_input('Correo o usuario')
+   #     contrasena = st.text_input('Contraseña', type='password')
         message = ""
         # Validar campos y autenticar usuario
         if st.button('Iniciar sesión'):
+            correo = st.text_input('Correo o usuario')
+            contrasena = st.text_input('Contraseña', type='password')            
             if not correo or not contrasena:
                 st.error("Todos los campos son obligatorios.")
             else:
