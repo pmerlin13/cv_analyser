@@ -109,6 +109,8 @@ def pagina_inicio_sesion():
                 elif authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
                     message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
+                else:
+                    message = 'ni de co'
         st.write(message)            
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
