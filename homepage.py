@@ -36,7 +36,8 @@ def conectar_bd():
             password=db_password,
             host=db_host,
             port=db_port,
-            database=db_name
+            database=db_name,
+            sslmode="require" 
         )
         return conn
     except psycopg2.OperationalError as e:
