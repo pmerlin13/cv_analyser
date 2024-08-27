@@ -80,7 +80,8 @@ def pagina_inicio_sesion():
         # Obtener los datos del usuario
         correo = st.text_input('Correo o usuario')
         contrasena = st.text_input('Contraseña', type='password')
-
+        credentials = obtener_usuarios_y_contrasenas()
+        st.text("credentials")
         # Validar campos y autenticar usuario
         if st.button('Iniciar sesión'):
             if not correo or not contrasena:
