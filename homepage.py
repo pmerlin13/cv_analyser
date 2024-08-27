@@ -99,17 +99,19 @@ def pagina_inicio_sesion():
                 # Usar streamlit_authenticator para autenticar
                 name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
-                
-                if authentication_status == False:
+                if authentication_status:
+                    authenticator.logout(button_name='Logout', location='main',key='Logout')
+                    st.write(f'Welcome *{name}*')
+                    st.title('Some content')
+                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+                    message = f'Inicio de sesión exitoso. Bienvenido, {name}!'                
+                elif authentication_status == False:
                     st.error('Usuario o contraseña inválidos.')
                     message = 'Usuario o contraseña inválidos.'
                 elif authentication_status == None:
                     st.warning('Por favor, ingrese su usuario y contraseña.')
                     message = 'Por favor, ingrese su usuario y contraseña.'
-                elif authentication_status:
-                    authenticator.logout(button_name='Logout', location='main',key='Logout')
-                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                    message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
+
 
         st.write(message)            
         st.write('¿Olvidaste tu contraseña?')
