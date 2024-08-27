@@ -100,13 +100,15 @@ def pagina_inicio_sesion():
                 # Usar streamlit_authenticator para autenticar
                 name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
-                if authentication_status:
-                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
-                elif authentication_status == False:
+
+                if authentication_status == False:
                     st.error('Usuario o contraseña inválidos.')
                 elif authentication_status == None:
                     st.warning('Por favor, ingrese su usuario y contraseña.')
-
+                elif authentication_status:
+                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+                    while(1):
+                        pass
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
