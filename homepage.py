@@ -109,13 +109,12 @@ def pagina_inicio_sesion():
                 elif authentication_status:
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
                     message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
-                else:
-                    message = 'ni de co'
+
         st.write(message)            
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
-
+        return(message)
 # Página de registro
 def pagina_registro():
     st.title('Registro')
@@ -148,7 +147,8 @@ def pagina_seleccion():
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
 
     if opcion == 'Login':
-        pagina_inicio_sesion()
+        message = pagina_inicio_sesion()
+        st.write(message)  
     elif opcion == 'Registro':
         pagina_registro()
 
