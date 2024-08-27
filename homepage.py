@@ -94,8 +94,12 @@ authenticator = stauth.Authenticate(
 
 # Página principal
 def pagina_principal():
-    # Asegúrate de que el segundo argumento sea uno de "main", "sidebar", o "unrendered"
-    name, authentication_status, username = authenticator.login("Login", "sidebar")  # Cambia a "sidebar" si prefieres la barra lateral
+    st.title('Bienvenido al Sistema de Gestión de CVs')
+    st.write('Esta es la página principal, solo accesible después de la autenticación.')
+
+# Página de inicio de sesión
+def pagina_inicio_sesion():
+    name, authentication_status, username = authenticator.login("Login", "main")
 
     if authentication_status == False:
         st.error("Username/password is incorrect")
@@ -105,48 +109,44 @@ def pagina_principal():
 
     if authentication_status:
         st.success(f'Bienvenido, {name}!')
-
-        opcion = st.radio('Opción', ['Inicio de Sesión', 'Registro'])
-
-        if opcion == 'Inicio de Sesión':
-            pagina_inicio_sesion()
-        elif opcion == 'Registro':
-            pagina_registro()
-
-# Página de inicio de sesión
-def pagina_inicio_sesion():
-    st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
-    # Aquí la autenticación ya está manejada por Streamlit Authenticator, así que no es necesario más.
+        pagina_principal()
 
 # Página de registro
 def pagina_registro():
-    with st.container():
-        st.title('Registro')
-        st.write('Por favor, completa los siguientes campos para crear una cuenta.')
+    st.title('Registro')
+    st.write('Por favor, completa los siguientes campos para crear una cuenta.')
 
-        nombre = st.text_input('Nombre')
-        apellido = st.text_input('Apellido')
-        correo = st.text_input('Correo electrónico')
-        contrasena = st.text_input('Contraseña', type='password')
+    nombre = st.text_input('Nombre')
+    apellido = st.text_input('Apellido')
+    correo = st.text_input('Correo electrónico')
+    contrasena = st.text_input('Contraseña', type='password')
 
-        if st.button('Crear cuenta'):
-            if not nombre or not apellido or not correo or not contrasena:
-                st.error("Todos los campos son obligatorios.")
+    if st.button('Crear cuenta'):
+        if not nombre or not apellido or not correo or not contrasena:
+            st.error("Todos los campos son obligatorios.")
+        else:
+            # Verificar si el correo ya está registrado
+            if correo_registrado(correo):
+                st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
             else:
-                # Verificar si el correo ya está registrado
-                if correo_registrado(correo):
-                    st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
-                else:
-                    conn = conectar_bd()
-                    cursor = conn.cursor()
-                    hashed_password = generate_password_hash(contrasena)
-                    cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
-                    conn.commit()
-                    conn.close()
-                    st.success('Cuenta creada exitosamente.')
+                conn = conectar_bd()
+                cursor = conn.cursor()
+                hashed_password = generate_password_hash(contrasena)
+                cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
+                conn.commit()
+                conn.close()
+                st.success('Cuenta creada exitosamente.')
+
+# Página de selección inicial
+def pagina_seleccion():
+    st.title("Bienvenido")
+    opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
+
+    if opcion == 'Login':
+        pagina_inicio_sesion()
+    elif opcion == 'Registro':
+        pagina_registro()
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    pagina_principal()
-
-
+    pagina_seleccion()
