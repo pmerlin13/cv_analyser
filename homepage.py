@@ -80,8 +80,7 @@ def pagina_inicio_sesion():
         # Obtener los datos del usuario
         correo = st.text_input('Correo o usuario')
         contrasena = st.text_input('Contraseña', type='password')
-        credentials = obtener_usuarios_y_contrasenas()
-        st.text("credentials")
+
         # Validar campos y autenticar usuario
         if st.button('Iniciar sesión'):
             if not correo or not contrasena:
@@ -89,7 +88,6 @@ def pagina_inicio_sesion():
             else:
                 # Obtener las credenciales desde la base de datos
                 credentials = obtener_usuarios_y_contrasenas()
-                st.text("credentials")
                 # Inicializar el autenticador de Streamlit
                 authenticator = stauth.Authenticate(
                     credentials,
@@ -102,12 +100,12 @@ def pagina_inicio_sesion():
                 name, authentication_status, username = authenticator.login(key='Login',location='main')  # 
 
 
-                if authentication_status == False:
-                    st.error('Usuario o contraseña inválidos.')
-                elif authentication_status == None:
-                    st.warning('Por favor, ingrese su usuario y contraseña.')
-                elif authentication_status:
-                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+        if authentication_status == False:
+            st.error('Usuario o contraseña inválidos.')
+        elif authentication_status == None:
+            st.warning('Por favor, ingrese su usuario y contraseña.')
+        elif authentication_status:
+            st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
 
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
