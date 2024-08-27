@@ -107,6 +107,7 @@ def pagina_inicio_sesion():
                     st.warning('Por favor, ingrese su usuario y contraseña.')
                     message = 'Por favor, ingrese su usuario y contraseña.'
                 elif authentication_status:
+                    authenticator.logout('Logout', 'main')
                     st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
                     message = f'Inicio de sesión exitoso. Bienvenido, {name}!'
 
@@ -114,7 +115,7 @@ def pagina_inicio_sesion():
         st.write('¿Olvidaste tu contraseña?')
         if st.button('Restablecer contraseña'):
             st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
-        return(message)
+        
 # Página de registro
 def pagina_registro():
     st.title('Registro')
@@ -147,11 +148,11 @@ def pagina_seleccion():
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
 
     if opcion == 'Login':
-        message = pagina_inicio_sesion()
-        st.write(message)  
+        pagina_inicio_sesion()
+        
     elif opcion == 'Registro':
         #pagina_registro()
-        st.Page("pages/dashbord.py")
+        st.Page("pages/dashboard.py")
 # Ejecutar la aplicación
 if __name__ == '__main__':
     pagina_seleccion()
