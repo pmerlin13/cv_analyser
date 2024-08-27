@@ -88,7 +88,7 @@ def pagina_inicio_sesion():
             else:
                 # Obtener las credenciales desde la base de datos
                 credentials = obtener_usuarios_y_contrasenas()
-                st.text(credentials)
+                st.text("credentials")
                 # Inicializar el autenticador de Streamlit
                 authenticator = stauth.Authenticate(
                     credentials,
