@@ -97,19 +97,36 @@ def pagina_principal():
     st.title('Bienvenido al Sistema de Gestión de CVs')
     st.write('Esta es la página principal, solo accesible después de la autenticación.')
 
-# Página de inicio de sesión
+# Página de inicio de sesión combinada con streamlit_authenticator
 def pagina_inicio_sesion():
-    name, authentication_status, username = authenticator.login("Login", "main")
+    with st.container():
+        st.title('Inicio de Sesión')
+        st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
 
-    if authentication_status == False:
-        st.error("Username/password is incorrect")
+        # Obtener los datos del usuario
+        correo = st.text_input('Correo o usuario')
+        contrasena = st.text_input('Contraseña', type='password')
 
-    if authentication_status == None:
-        st.warning("Please enter your username and password")
+        # Validar campos y autenticar usuario
+        if st.button('Iniciar sesión'):
+            if not correo or not contrasena:
+                st.error("Todos los campos son obligatorios.")
+            else:
+                # Usar streamlit_authenticator para autenticar
+                authenticator.credentials["usernames"] = {correo: {"name": correo, "password": contrasena}}
+                name, authentication_status, username = authenticator.login("Login", "main")
 
-    if authentication_status:
-        st.success(f'Bienvenido, {name}!')
-        pagina_principal()
+                if authentication_status:
+                    st.success(f'Inicio de sesión exitoso. Bienvenido, {name}!')
+                    pagina_principal()
+                elif authentication_status == False:
+                    st.error('Usuario o contraseña inválidos.')
+                elif authentication_status == None:
+                    st.warning('Por favor, ingrese su usuario y contraseña.')
+
+        st.write('¿Olvidaste tu contraseña?')
+        if st.button('Restablecer contraseña'):
+            st.info('Se ha enviado un código de restablecimiento de contraseña a tu correo electrónico.')
 
 # Página de registro
 def pagina_registro():
