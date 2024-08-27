@@ -76,6 +76,14 @@ def pagina_inicio_sesion():
     with st.container():
         st.title('Inicio de Sesión')
         st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
+        credentials = obtener_usuarios_y_contrasenas()
+        # Inicializar el autenticador de Streamlit
+        authenticator = stauth.Authenticate(
+            credentials,
+            "sales_dashboard",
+            "abcdef",
+            cookie_expiry_days=30
+        )
         name, authentication_status, username = authenticator.login(key='Login',location='main') 
         # Obtener los datos del usuario
  #       correo = st.text_input('Correo o usuario')
