@@ -94,6 +94,7 @@ authenticator = stauth.Authenticate(
 
 # Página principal
 def pagina_principal():
+    # Cambia "main" por "sidebar" si deseas que el login esté en la barra lateral
     name, authentication_status, username = authenticator.login("Login", "main")
 
     if authentication_status == False:
@@ -147,3 +148,4 @@ def pagina_registro():
 # Ejecutar la aplicación
 if __name__ == '__main__':
     pagina_principal()
+
