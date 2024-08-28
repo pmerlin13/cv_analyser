@@ -104,7 +104,7 @@ def pagina_registro(authenticator):
     try:
         email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
         if email_of_registered_user:
-            st.success('User registered successfully')
+            st.success(fr'User registered successfully{email_of_registered_user}')
     except Exception as e:
         st.error(e)
 
