@@ -136,16 +136,19 @@ def pagina_seleccion():
     st.title("Bienvenido")
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
     #credentials = obtener_usuarios_y_contrasenas()
-    name,username,password = obtener_usuarios_y_contrasenas()
-    # Inicializar el autenticador de Streamlit
+    try:
+        name,username,password = obtener_usuarios_y_contrasenas()
+        # Inicializar el autenticador de Streamlit
 
-    authenticator = stauth.Authenticate(
-        name,username,password,
-        "sales_dashboard",
-        "abcdef",
-        cookie_expiry_days=30
-        #auto_hash=False
-    )
+        authenticator = stauth.Authenticate(
+            name,username,password,
+            "sales_dashboard",
+            "abcdef",
+            cookie_expiry_days=30
+            #auto_hash=False
+        )
+    except:
+        st.write("No hay usuarios")
     if opcion == 'Login':
         pagina_inicio_sesion(authenticator)
         
