@@ -123,7 +123,7 @@ def pagina_registro(authenticator):
            else:
                conn = conectar_bd()
                cursor = conn.cursor()
-               hashed_password = stauth.Hasher(contrasena).generate()
+               hashed_password = contrasena#stauth.Hasher(contrasena).generate()
                 
                cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
                conn.commit()
@@ -141,8 +141,8 @@ def pagina_seleccion():
         credentials,
         "sales_dashboard",
         "abcdef",
-        cookie_expiry_days=30,
-        auto_hash=False
+        cookie_expiry_days=30
+        #auto_hash=False
     )
     if opcion == 'Login':
         pagina_inicio_sesion(authenticator)
