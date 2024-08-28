@@ -102,8 +102,7 @@ def pagina_registro(authenticator):
     st.title('Registro')
     st.write('Por favor, completa los siguientes campos para crear una cuenta.')
     try:
-        email_of_registered_user = authenticator.update_user_details(auto_hash=False,location = 'main')
-         #email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
+        email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
         if email_of_registered_user:
              st.success(fr'User registered successfully{email_of_registered_user}')
     except Exception as e:
