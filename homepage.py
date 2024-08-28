@@ -58,10 +58,11 @@ def obtener_usuarios_y_contrasenas():
     cursor.execute('SELECT name, email, password FROM "user".user_info')
     users = cursor.fetchall()
     conn.close()
-
+    
     credentials = {"usernames": {}}
     for user in users:
         name, username, hashed_password = user
+        hashed_password = hashed_password.encode('utf-8')
         credentials["usernames"][username] = {"name": name, "password": hashed_password}
 
     return credentials
@@ -123,6 +124,7 @@ def pagina_registro(authenticator):
                 conn = conectar_bd()
                 cursor = conn.cursor()
                 hashed_password = stauth.Hasher(contrasena).generate()
+                
                 cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
                 conn.commit()
                 conn.close()
