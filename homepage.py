@@ -134,7 +134,7 @@ def pagina_seleccion():
     st.title("Bienvenido")
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
     credentials = obtener_usuarios_y_contrasenas()
-    st.write(credentials["manuel7_80@hotmail.com"]["password"])
+    st.write(credentials)
     # Inicializar el autenticador de Streamlit
     authenticator = stauth.Authenticate(
         credentials,
