@@ -59,13 +59,14 @@ def obtener_usuarios_y_contrasenas():
     cursor.execute('SELECT name, email, password FROM "user".user_info')
     users = cursor.fetchall()
     conn.close()
-    
+    name, username, hashed_password = users
     credentials = {"usernames": {}}
     for user in users:
-        name, username, hashed_password = user
-        credentials["usernames"][username] = {"name": name, "password": hashed_password}
+        #name, username, hashed_password = user
+        #credentials["usernames"][username] = {"name": name, "password": hashed_password}
+        pass
 
-    return credentials
+    return name, username, hashed_password#credentials
 
 # Página principal
 def pagina_principal():
@@ -134,11 +135,12 @@ def pagina_registro(authenticator):
 def pagina_seleccion():
     st.title("Bienvenido")
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
-    credentials = obtener_usuarios_y_contrasenas()
+    #credentials = obtener_usuarios_y_contrasenas()
+    name,username,password = obtener_usuarios_y_contrasenas()
     # Inicializar el autenticador de Streamlit
 
     authenticator = stauth.Authenticate(
-        credentials,
+        name,username,password,
         "sales_dashboard",
         "abcdef",
         cookie_expiry_days=30
