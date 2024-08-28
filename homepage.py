@@ -59,7 +59,6 @@ def obtener_usuarios_y_contrasenas():
     cursor.execute('SELECT name, email, password FROM "user".user_info')
     users = cursor.fetchall()
     conn.close()
-    name, username, hashed_password = users
     credentials = {"usernames": {}}
     for user in users:
         name, username, hashed_password = user
