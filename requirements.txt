@@ -3,3 +3,5 @@ streamlit-authenticator
 psycopg2-binary
 werkzeug
 cryptography
+pickle
+pathlib

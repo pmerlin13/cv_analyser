@@ -3,6 +3,7 @@ import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from cryptography.fernet import Fernet
 import streamlit_authenticator as stauth
+from pathlib import Path
 
 # Proceso de encriptación
 def get_fernet_key():
@@ -100,34 +101,35 @@ def pagina_inicio_sesion(authenticator):
 def pagina_registro(authenticator):
     st.title('Registro')
     st.write('Por favor, completa los siguientes campos para crear una cuenta.')
-    # try:
-    #     email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
-    #     if email_of_registered_user:
-    #         st.success(fr'User registered successfully{email_of_registered_user}')
-    # except Exception as e:
-    #     st.error(e)
+    try:
+          email_of_registered_user = authenticator.update_user_details(location = 'main')
+         #email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
+         if email_of_registered_user:
+             st.success(fr'User registered successfully{email_of_registered_user}')
+    except Exception as e:
+         st.error(e)
 
-    nombre = st.text_input('Nombre')
-    apellido = st.text_input('Apellido')
-    correo = st.text_input('Correo electrónico')
-    contrasena = st.text_input('Contraseña', type='password')
+#    nombre = st.text_input('Nombre')
+#    apellido = st.text_input('Apellido')
+#    correo = st.text_input('Correo electrónico')
+#    contrasena = st.text_input('Contraseña', type='password')
 
-    if st.button('Crear cuenta'):
-        if not nombre or not apellido or not correo or not contrasena:
-            st.error("Todos los campos son obligatorios.")
-        else:
-            # Verificar si el correo ya está registrado
-            if correo_registrado(correo):
-                st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
-            else:
-                conn = conectar_bd()
-                cursor = conn.cursor()
-                hashed_password = stauth.Hasher(contrasena).generate()
+#    if st.button('Crear cuenta'):
+#        if not nombre or not apellido or not correo or not contrasena:
+##            st.error("Todos los campos son obligatorios.")
+ #       else:
+#            # Verificar si el correo ya está registrado
+#            if correo_registrado(correo):
+#                st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
+#            else:
+#                conn = conectar_bd()
+#                cursor = conn.cursor()
+ #               hashed_password = stauth.Hasher(contrasena).generate()
                 
-                cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
-                conn.commit()
-                conn.close()
-                st.success('Cuenta creada exitosamente.')
+#                cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
+ #               conn.commit()
+ #               conn.close()
+ #               st.success('Cuenta creada exitosamente.')
 
 # Página de selección inicial
 def pagina_seleccion():
@@ -135,6 +137,7 @@ def pagina_seleccion():
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
     credentials = obtener_usuarios_y_contrasenas()
     # Inicializar el autenticador de Streamlit
+
     authenticator = stauth.Authenticate(
         credentials,
         "sales_dashboard",
