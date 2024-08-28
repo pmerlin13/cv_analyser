@@ -63,10 +63,10 @@ def obtener_usuarios_y_contrasenas():
     credentials = {"usernames": {}}
     for user in users:
         name, username, hashed_password = user
-        #credentials["usernames"][username] = {"name": name, "password": hashed_password}
+        credentials["usernames"][username] = {"name": name, "password": hashed_password}
         
 
-    return name, username, hashed_password#credentials
+    return credentials
 
 # Página principal
 def pagina_principal():
@@ -135,20 +135,16 @@ def pagina_registro(authenticator):
 def pagina_seleccion():
     st.title("Bienvenido")
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
-    #credentials = obtener_usuarios_y_contrasenas()
-    try:
-        name,username,password = obtener_usuarios_y_contrasenas()
-        # Inicializar el autenticador de Streamlit
+    credentials = obtener_usuarios_y_contrasenas()
+    # Inicializar el autenticador de Streamlit
 
-        authenticator = stauth.Authenticate(
-            name,username,password,
-            "sales_dashboard",
-            "abcdef",
-            cookie_expiry_days=30
-            #auto_hash=False
-        )
-    except:
-        st.write("No hay usuarios")
+    authenticator = stauth.Authenticate(
+        credentials,
+        "sales_dashboard",
+        "abcdef",
+        cookie_expiry_days=30
+        #auto_hash=False
+    )
     if opcion == 'Login':
         pagina_inicio_sesion(authenticator)
         
