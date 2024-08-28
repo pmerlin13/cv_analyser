@@ -62,7 +62,7 @@ def obtener_usuarios_y_contrasenas():
     credentials = {"usernames": {}}
     for user in users:
         name, username, hashed_password = user
-        credentials["usernames"][username] = {"name": name, "password": hashed_password}
+        credentials["usernames"][name] = {"name": name, "password": hashed_password}
         
 
     return credentials
