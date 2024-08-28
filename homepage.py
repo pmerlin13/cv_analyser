@@ -72,18 +72,11 @@ def pagina_principal():
     st.write('Esta es la página principal, solo accesible después de la autenticación.')
 
 # Página de inicio de sesión combinada con streamlit_authenticator
-def pagina_inicio_sesion():
+def pagina_inicio_sesion(authenticator):
     with st.container():
         st.title('Inicio de Sesión')
         st.write('Por favor, ingresa tus credenciales para iniciar sesión.')
-        credentials = obtener_usuarios_y_contrasenas()
-        # Inicializar el autenticador de Streamlit
-        authenticator = stauth.Authenticate(
-            credentials,
-            "sales_dashboard",
-            "abcdef",
-            cookie_expiry_days=30
-        )
+
         name, authentication_status, username = authenticator.login(key='Login',location='main') 
         if authentication_status:
             authenticator.logout(button_name='Logout', location='main',key='Logout')        
@@ -104,42 +97,57 @@ def pagina_inicio_sesion():
 
         
 # Página de registro
-def pagina_registro():
+def pagina_registro(authenticator):
     st.title('Registro')
     st.write('Por favor, completa los siguientes campos para crear una cuenta.')
 
-    nombre = st.text_input('Nombre')
-    apellido = st.text_input('Apellido')
-    correo = st.text_input('Correo electrónico')
-    contrasena = st.text_input('Contraseña', type='password')
+    try:
+        email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
+        if email_of_registered_user:
+            st.success('User registered successfully')
+    except Exception as e:
+        st.error(e)
 
-    if st.button('Crear cuenta'):
-        if not nombre or not apellido or not correo or not contrasena:
-            st.error("Todos los campos son obligatorios.")
-        else:
-            # Verificar si el correo ya está registrado
-            if correo_registrado(correo):
-                st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
-            else:
-                conn = conectar_bd()
-                cursor = conn.cursor()
-                hashed_password = generate_password_hash(contrasena)
-                cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
-                conn.commit()
-                conn.close()
-                st.success('Cuenta creada exitosamente.')
+    # nombre = st.text_input('Nombre')
+    # apellido = st.text_input('Apellido')
+    # correo = st.text_input('Correo electrónico')
+    # contrasena = st.text_input('Contraseña', type='password')
+
+    # if st.button('Crear cuenta'):
+    #     if not nombre or not apellido or not correo or not contrasena:
+    #         st.error("Todos los campos son obligatorios.")
+    #     else:
+    #         # Verificar si el correo ya está registrado
+    #         if correo_registrado(correo):
+    #             st.error('El correo electrónico ya está registrado. Por favor, utiliza otro correo.')
+    #         else:
+    #             conn = conectar_bd()
+    #             cursor = conn.cursor()
+    #             hashed_password = generate_password_hash(contrasena)
+    #             cursor.execute('INSERT INTO "user".user_info (name, lastname, email, password) VALUES (%s, %s, %s, %s)', (nombre, apellido, correo, hashed_password))
+    #             conn.commit()
+    #             conn.close()
+    #             st.success('Cuenta creada exitosamente.')
 
 # Página de selección inicial
 def pagina_seleccion():
     st.title("Bienvenido")
     opcion = st.radio('Seleccione una opción', ['Login', 'Registro'])
-
+    credentials = obtener_usuarios_y_contrasenas()
+    # Inicializar el autenticador de Streamlit
+    authenticator = stauth.Authenticate(
+        credentials,
+        "sales_dashboard",
+        "abcdef",
+        cookie_expiry_days=30
+    )
     if opcion == 'Login':
-        pagina_inicio_sesion()
+        pagina_inicio_sesion(authenticator)
         
     elif opcion == 'Registro':
-        #pagina_registro()
-        st.Page("pages/dashboard.py")
+        pagina_registro(authenticator)
+        # st.Page("pages/dashboard.py")
 # Ejecutar la aplicación
 if __name__ == '__main__':
+    
     pagina_seleccion()
