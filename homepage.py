@@ -137,8 +137,8 @@ def pagina_seleccion():
     # Inicializar el autenticador de Streamlit
     authenticator = stauth.Authenticate(
         credentials,
-        cookie_name="sales_dashboard",
-        key="abcdef",
+        "sales_dashboard",
+        "abcdef",
         cookie_expiry_days=30
     )
     if opcion == 'Login':
