@@ -102,7 +102,7 @@ def pagina_registro(authenticator):
     st.title('Registro')
     st.write('Por favor, completa los siguientes campos para crear una cuenta.')
     try:
-        email_of_registered_user = authenticator.update_user_details(location = 'main')
+        email_of_registered_user = authenticator.update_user_details(auto_hash=False,location = 'main')
          #email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
         if email_of_registered_user:
              st.success(fr'User registered successfully{email_of_registered_user}')
@@ -142,7 +142,8 @@ def pagina_seleccion():
         credentials,
         "sales_dashboard",
         "abcdef",
-        cookie_expiry_days=30
+        cookie_expiry_days=30,
+        auto_hash=False
     )
     if opcion == 'Login':
         pagina_inicio_sesion(authenticator)
